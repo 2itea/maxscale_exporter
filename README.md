@@ -1,5 +1,7 @@
 ## Overview
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/wirdgroup/maxscale_exporter)](https://goreportcard.com/report/github.com/wirdgroup/maxscale_exporter)
+
 *As i am not a programmer, any help will be welcome to update/beautify the code.*
 
 Maxscale v2.3.*
