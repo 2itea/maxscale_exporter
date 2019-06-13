@@ -220,6 +220,7 @@ func (m *MaxScale) parseServices(ch chan<- prometheus.Metric) error {
 			fmt.Println(err)
 		}
 
+		// Loop in ["attributes"]["router_diagnostics"] of a service
 		jsonparser.ObjectEach(value, func(key []byte, value2 []byte, dataType jsonparser.ValueType, offset int) error {
 			for _, router := range routers {
 				if string(key) == string(router.Name) {
@@ -228,6 +229,7 @@ func (m *MaxScale) parseServices(ch chan<- prometheus.Metric) error {
 					if err != nil {
 						fmt.Println(err)
 					}
+
 					connectionsMetric := m.routerMetrics[router.Name]
 					ch <- prometheus.MustNewConstMetric(
 						connectionsMetric.Desc,
@@ -239,8 +241,13 @@ func (m *MaxScale) parseServices(ch chan<- prometheus.Metric) error {
 
 				if string(key) == "server_query_statistics" {
 
+					// Loop in server_query_statistics
 					jsonparser.ArrayEach(value2, func(value3 []byte, dataType jsonparser.ValueType, offset int, err error) {
+
+						// get id node
 						idNode, _ := jsonparser.GetString(value3, "id")
+
+						// loop in objects of server_query_statistics
 						jsonparser.ObjectEach(value3, func(key2 []byte, value4 []byte, dataType jsonparser.ValueType, offset int) error {
 							for _, node := range nodes {
 								if string(key2) == string(node.Name) {
@@ -301,14 +308,14 @@ func (m *MaxScale) parseServers(ch chan<- prometheus.Metric) error {
 			fmt.Println(err)
 		}
 
+		// get string ["state"]
 		stringStateNode, err := jsonparser.GetString(value, "attributes", "state")
 
 		if err != nil {
 			fmt.Println(err)
 		}
-		//fmt.Println(idRouter)
-		//fmt.Println(statusNode)
 
+		// gather status/master of nodes
 		statusNode, masterNode := serverUp(stringStateNode)
 
 		nodeStatueConnectionsMetric := m.nodeMetrics["node_status"]
