@@ -47,9 +47,7 @@ Make sure `$GOPATH/bin` is in your `$PATH`.
     $ maxscale_exporter -h
     Usage of maxscale_exporter:
       -address string
-        	address to get maxscale statistics from (default "127.0.0.1:8003")
-      -pidfile string
-        	the pid file for maxscale to monitor process statistics
+        	address to get maxscale statistics from (default "admin:mariadb@127.0.0.1:8003")
       -port string
         	the port that the maxscale exporter listens on (default "9195")
 
