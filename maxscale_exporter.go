@@ -252,11 +252,18 @@ func (m *MaxScale) parseServices(ch chan<- prometheus.Metric) error {
 							for _, node := range nodes {
 								if string(key2) == string(node.Name) {
 									if string(node.Name) == "avg_sess_duration" {
-										floatTempNode, err = strconv.ParseFloat(strings.TrimSuffix(string(value4), "s"), 64)
-										if err != nil {
-											fmt.Println(err)
+										if string(value4)[len(string(value4))-2:] == "ms" {
+											floatTempNode, err = strconv.ParseFloat(strings.TrimSuffix(string(value4), "ms"), 64)
+											if err != nil {
+												fmt.Println(err)
+											}
+											floatTempNode = floatTempNode / 1000
+										} else {
+											floatTempNode, err = strconv.ParseFloat(strings.TrimSuffix(string(value4), "s"), 64)
+											if err != nil {
+												fmt.Println(err)
+											}
 										}
-
 									} else {
 										floatTempNode, err = strconv.ParseFloat(string(value4), 64)
 										if err != nil {
