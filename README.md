@@ -39,7 +39,7 @@ Your MaxScale instance needs to have the REST API enabled so this can pull the s
 ## Installation
 get [Go](https://golang.org/dl), set a `$GOPATH`, and run
 
-    go get github.com/pr000t/maxscale_exporter
+    go get github.com/2itea/maxscale_exporter
 
 ## Use
 Make sure `$GOPATH/bin` is in your `$PATH`.
